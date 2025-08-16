@@ -1,0 +1,6 @@
+@BookingMaster_HostAddress = http://localhost:5242
+
+GET {{BookingMaster_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
