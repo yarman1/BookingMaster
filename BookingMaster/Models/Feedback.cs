@@ -15,9 +15,5 @@ namespace BookingMaster.Models
         public int BookingId { get; set; }
 
         public required Booking Booking { get; set; }
-
-        public int CustomerId { get; set; }
-
-        public required User Customer { get; set; }
     }
 }

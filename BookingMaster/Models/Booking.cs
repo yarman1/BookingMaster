@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BookingMaster.Models
 {
@@ -30,5 +29,7 @@ namespace BookingMaster.Models
         public int StatusId { get; set; }
 
         public required BookingStatus Status { get; set; }
+
+        public Feedback? Feedback { get; set; }
     }
 }

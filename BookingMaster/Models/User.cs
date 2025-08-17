@@ -1,7 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BookingMaster.Models
 {
+    [Index(nameof(Email), IsUnique = true)]
+    [Index(nameof(Phone), IsUnique = true)]
     public class User
     {
         public int Id { get; set; }
@@ -18,7 +21,7 @@ namespace BookingMaster.Models
         [Column(TypeName = "nvarchar(20)")]
         public string Phone { get; set; } = string.Empty;
 
-        [Column(TypeName = "nvarchar(100)")]
+        [Column(TypeName = "nvarchar(max)")]
         public string PasswordHash { get; set; } = string.Empty;
 
         [Column(TypeName = "datetime2(0)")] 
@@ -30,5 +33,11 @@ namespace BookingMaster.Models
         public int RoleId { get; set; }
 
         public required Role Role { get; set; }
+
+        public ICollection<Booking> Bookings { get; set; } = [];
+
+        public ICollection<Accommodation> Accommodations { get; set; } = [];
+
+        public RefreshToken? RefreshToken { get; set; }
     }
 }

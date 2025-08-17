@@ -9,6 +9,8 @@ namespace BookingMaster.Models
         [Column(TypeName = "nvarchar(15)")]
         public string Name { get; set; } = string.Empty;
 
-        public ICollection<Booking> Bookings { get; set; } = new List<Booking>();
+        public string NormalizedName { get; set; } = string.Empty;
+
+        public ICollection<Booking> Bookings { get; set; } = [];
     }
 }

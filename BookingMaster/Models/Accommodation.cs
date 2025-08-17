@@ -1,7 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BookingMaster.Models
 {
+    [Index(nameof(Email), IsUnique = true)]
+    [Index(nameof(Phone), IsUnique = true)]
     public class Accommodation
     {
         public int Id { get; set; }
@@ -37,5 +40,7 @@ namespace BookingMaster.Models
         public int OwnerId { get; set; }
 
         public required User Owner { get; set; }
+
+        public ICollection<AccommodationProposal> AccommodationProposals { get; set; } = [];
     }
 }

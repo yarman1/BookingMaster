@@ -21,5 +21,7 @@ namespace BookingMaster.Models
         public int AccommodationId { get; set; }
 
         public required Accommodation Accommodation { get; set; }
+
+        public ICollection<Booking> Bookings { get; set; } = [];
     }
 }
