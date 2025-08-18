@@ -14,19 +14,13 @@ using System.Text;
 namespace BookingMaster.Services
 {
 
-    public class AuthService : IAuthService
+    public class AuthService(ApplicationDBContext context, IConfiguration config) : IAuthService
     {
-        private readonly ApplicationDBContext _dbContext;
-        private readonly IConfiguration _config;
-
-        public AuthService(ApplicationDBContext context, IConfiguration config)
-        {
-            _dbContext = context;
-            _config = config;
-        }
+        private readonly ApplicationDBContext _dbContext = context;
+        private readonly IConfiguration _config = config;
 
         public async Task<Result<AuthResponse>> RegisterOwnerAsync(RegisterRequest request)
-    => await RegisterAsync(request, Roles.Owner);
+            => await RegisterAsync(request, Roles.Owner);
 
         public async Task<Result<AuthResponse>> RegisterCustomerAsync(RegisterRequest request)
             => await RegisterAsync(request, Roles.Customer);
@@ -61,7 +55,7 @@ namespace BookingMaster.Services
                 Role = role
             };
 
-            _dbContext.User.Add(user);
+            await _dbContext.User.AddAsync(user);
             await _dbContext.SaveChangesAsync();
 
             return new Result<AuthResponse>(true, await GenerateTokensAsync(user), null);
@@ -69,7 +63,7 @@ namespace BookingMaster.Services
 
         private async Task<Result<AuthResponse>> LoginAsync(LoginRequest request, string role)
         {
-            var user = await _dbContext.User.Include(u => u.Role).FirstOrDefaultAsync(u => u.Email == request.Email && u.Role.NormalizedName == role);
+            var user = await _dbContext.User.Include(u => u.Role).Include(u => u.RefreshToken).FirstOrDefaultAsync(u => u.Email == request.Email && u.Role.NormalizedName == role);
             if (user == null || !PasswordHelper.VerifyPassword(request.Password, user.PasswordHash))
             {
                 return new Result<AuthResponse>(false, null, "Invalid credentials");
@@ -133,7 +127,7 @@ namespace BookingMaster.Services
         {
             var claims = new List<Claim>
             {
-                new(JwtRegisteredClaimNames.Sub, user.Email),
+                new(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new(ClaimTypes.Role, user.Role.NormalizedName)
             };
 
@@ -164,7 +158,7 @@ namespace BookingMaster.Services
                 User = user,
             };
 
-            _dbContext.RefreshToken.Add(refreshTokenEntity);
+            await _dbContext.RefreshToken.AddAsync(refreshTokenEntity);
             await _dbContext.SaveChangesAsync();
 
             return new AuthResponse
