@@ -1,9 +1,10 @@
 using BookingMaster;
 using BookingMaster.Constants;
 using BookingMaster.Data;
-using BookingMaster.Interfaces;
-using BookingMaster.Services;
 using BookingMaster.Filters;
+using BookingMaster.Interfaces;
+using BookingMaster.Profiles;
+using BookingMaster.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -11,8 +12,14 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
+
 builder.Services.AddControllers();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IAccommodationService, AccommodationService>();
+builder.Services.AddScoped<IAccommodationProposalService, AccommodationProposalService>();
+builder.Services.AddScoped<IBookingService, BookingService>();
+builder.Services.AddScoped<IFeedbackService, FeedbackService>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>

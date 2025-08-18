@@ -18,6 +18,14 @@ namespace BookingMaster.Models
         [Column(TypeName = "int")]
         public int Quantity { get; set; }
 
+        [Column(TypeName = "datetime2(0)")]
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
+        [Column(TypeName = "datetime2(0)")]
+        public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
+
+        public bool IsActive { get; set; } = true;
+
         public int AccommodationId { get; set; }
 
         public required Accommodation Accommodation { get; set; }

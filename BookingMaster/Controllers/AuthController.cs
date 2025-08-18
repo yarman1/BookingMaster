@@ -13,6 +13,8 @@ namespace BookingMaster.Controllers
 
         [AllowAnonymous]
         [HttpPost("register/owner")]
+        [ProducesResponseType(typeof(AuthResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> RegisterOwner([FromBody] RegisterRequest request)
         {
             var result = await _authService.RegisterOwnerAsync(request);
@@ -22,6 +24,8 @@ namespace BookingMaster.Controllers
 
         [AllowAnonymous]
         [HttpPost("register/customer")]
+        [ProducesResponseType(typeof(AuthResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> RegisterCustomer([FromBody] RegisterRequest request)
         {
             var result = await _authService.RegisterCustomerAsync(request);
@@ -31,6 +35,8 @@ namespace BookingMaster.Controllers
 
         [AllowAnonymous]
         [HttpPost("login/owner")]
+        [ProducesResponseType(typeof(AuthResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> LoginOwner([FromBody] LoginRequest request)
         {
             var result = await _authService.LoginOwnerAsync(request);
@@ -40,6 +46,8 @@ namespace BookingMaster.Controllers
 
         [AllowAnonymous]
         [HttpPost("login/customer")]
+        [ProducesResponseType(typeof(AuthResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> LoginCustomer([FromBody] LoginRequest request)
         {
             var result = await _authService.LoginCustomerAsync(request);
@@ -49,6 +57,8 @@ namespace BookingMaster.Controllers
 
         [AllowAnonymous]
         [HttpPost("logout")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Logout([FromBody] RefreshTokenRequest request)
         {
             var result = await _authService.LogoutAsync(request.RefreshToken);
@@ -58,6 +68,8 @@ namespace BookingMaster.Controllers
 
         [AllowAnonymous]
         [HttpPost("refresh")]
+        [ProducesResponseType(typeof(AuthResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> Refresh([FromBody] RefreshTokenRequest request)
         {
             var result = await _authService.RefreshTokenAsync(request.RefreshToken);

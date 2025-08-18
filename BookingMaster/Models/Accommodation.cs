@@ -21,8 +21,8 @@ namespace BookingMaster.Models
         [Column(TypeName = "nvarchar(25)")]
         public string City { get; set; } = string.Empty;
 
-        [Column(TypeName = "decimal(3,2)")]
-        public double AverageRating { get; set; }
+        [Column(TypeName = "float")]
+        public double? AverageRating { get; set; }
 
         [Column(TypeName = "nvarchar(200)")]
         public string Description { get; set; } = string.Empty;
@@ -32,6 +32,16 @@ namespace BookingMaster.Models
 
         [Column(TypeName = "time")]
         public TimeOnly CheckOutTime { get; set; }
+
+        [Column(TypeName = "datetime2(0)")]
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
+        [Column(TypeName = "datetime2(0)")]
+        public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
+
+        public int FeedbackCount { get; set; } = 0;
+
+        public int TotalRating { get; set; } = 0;
 
         public int PropertyTypeId { get; set; }
 

@@ -18,6 +18,12 @@ namespace BookingMaster.Models
         [Column(TypeName = "nvarchar(200)")]
         public string? Comment { get; set; }
 
+        [Column(TypeName = "datetime2(0)")]
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
+        [Column(TypeName = "datetime2(0)")]
+        public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
+
         public int CustomerId { get; set; }
 
         public required User Customer { get; set; }
